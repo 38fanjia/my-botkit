@@ -1,6 +1,7 @@
 'use strict';
 
 import Botkit from 'botkit';
+import TwitterStream from './twitter-stream';
 
 if (!process.env.TOKEN) {
   console.log('Error: Specify TOKEN in environment');
@@ -14,7 +15,15 @@ const controller = Botkit.slackbot({
 // connect the bot to a stream of messages
 controller.spawn({
   token: process.env.TOKEN
-}).startRTM();
+}).startRTM((error, bot, payload) => {
+  if (error) {
+    throw new Error('Could not connect to Slack');
+  }
+
+  // twitter stream
+  const twitterStream = new TwitterStream(bot);
+  twitterStream.stream();
+});
 
 // listen ======================================================================
 
@@ -28,7 +37,7 @@ controller.hears(['hello', 'hi'], ['direct_message', 'dicrect_mention'], (bot, m
     timestamp: message.ts,
     channel: message.channel,
     name: 'robot_face'
-  }), (error) => {
+  }), (error, response) => {
     if(error) {
       bot.botkit.log('Failed to add emoji reaction :(', error);
     }
