@@ -1,10 +1,11 @@
 'use strict';
 
 import Botkit from 'botkit';
+import SlackChannel from './slack-channel';
 import TwitterStream from './twitter-stream';
 
-if (!process.env.TOKEN) {
-  console.log('Error: Specify TOKEN in environment');
+if (!process.env.TOKEN || !process.env.STREAM_FILTER) {
+  console.log('Error: Specify TOKEN STREAM_FILTER in environment');
   process.exit(1);
 }
 
@@ -20,9 +21,16 @@ controller.spawn({
     throw new Error('Could not connect to Slack');
   }
 
-  // twitter stream
-  const twitterStream = new TwitterStream(bot);
-  twitterStream.stream();
+  // slack channel list
+  const slackChannel = new SlackChannel(bot);
+  slackChannel.init();
+
+  setTimeout(() => {
+
+    // twitter stream
+    const twitterStream = new TwitterStream(bot);
+    twitterStream.stream(slackChannel.id('general'), process.env.STREAM_FILTER);
+  }, 2000);
 });
 
 // listen ======================================================================
