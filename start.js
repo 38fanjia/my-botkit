@@ -1,2 +1,5 @@
 require('babel-register');
-var app = require('./app/bot.js');
+var Bot = require('./app/bot.js').default;
+
+const bot = new Bot();
+bot.run();
