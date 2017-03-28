@@ -46,7 +46,7 @@ export default class TwitterStream {
     }, stream => {
 
       stream.on('data', (tweet) => {
-        const url = 'http://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
+        const url = `http://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
         bot.say({
           text: url,
           channel: channel

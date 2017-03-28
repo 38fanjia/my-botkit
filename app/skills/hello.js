@@ -22,7 +22,7 @@ export default class Hello {
       // reply message
       controller.storage.users.get(message.user, (error, user) => {
         if (user && user.name) {
-          bot.reply(message, 'Hello ' + user.name + '!!');
+          bot.reply(message, `Hello ${user.name}!!`);
         } else {
           bot.reply(message, 'Hello.');
         }
