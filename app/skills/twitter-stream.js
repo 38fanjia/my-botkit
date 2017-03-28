@@ -12,7 +12,7 @@ export default class TwitterStream {
     }
 
     // twitter consumer config
-    this.twitterClient = Twitter({
+    this.client = Twitter({
       consumer_key: process.env.CONSUMER_KEY,
       consumer_secret: process.env.CONSUMER_SECRET,
       access_token_key: process.env.ACCESS_TOKEN_KEY,
@@ -41,15 +41,17 @@ export default class TwitterStream {
   }
 
   stream(bot, channel) {
-    this.twitterClient.stream('statuses/filter', {
+    this.client.stream('statuses/filter', {
       track: this.filter
     }, stream => {
 
       stream.on('data', (tweet) => {
         const url = `http://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`;
-        bot.say({
+        bot.api.chat.postMessage({
           text: url,
-          channel: channel
+          channel: channel,
+          username: 'twitter',
+          icon_emoji: ':bird:'
         });
       });
 
