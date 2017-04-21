@@ -24,7 +24,7 @@ export default class TwitterStream {
 
   }
 
-  hears(controller) {
+  run(controller) {
     controller.on('message_received', (bot, message) => {
       if (message.type === 'hello') {
 

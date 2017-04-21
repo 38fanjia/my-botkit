@@ -2,11 +2,9 @@
 
 export default class Hello {
 
-  constructor() {}
+  run(controller) {
 
-  hears(controller) {
-
-    controller.hears(['hello', 'hi'], ['direct_message', 'direct_mention'], (bot, message) => {
+    controller.hears(['^hello', '^hi'], ['direct_message', 'direct_mention'], (bot, message) => {
 
       // add reactions
       bot.api.reactions.add({

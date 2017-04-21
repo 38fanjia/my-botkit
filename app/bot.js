@@ -21,17 +21,11 @@ export default class Bot {
       token: process.env.TOKEN
     }).startRTM();
 
-    // listen ======================================================================
-
-    this.controller.hears('ping', ['direct_message', 'direct_mention'], (bot, message) => {
-      bot.reply(message, 'pong');
-    });
-
     // import skill modules
     const path = require('path').join(__dirname, 'skills');
     require('fs').readdirSync(path).forEach(file => {
       const skill = require(`./skills/${file}`).default;
-      new skill().hears(this.controller);
+      new skill().run(this.controller);
     });
   }
 }
