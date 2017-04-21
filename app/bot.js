@@ -25,7 +25,7 @@ export default class Bot {
     const path = require('path').join(__dirname, 'skills');
     require('fs').readdirSync(path).forEach(file => {
       const skill = require(`./skills/${file}`).default;
-      new skill().run(this.controller);
+      new skill(this.controller).run();
     });
   }
 }
