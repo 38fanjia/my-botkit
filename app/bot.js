@@ -1,61 +1,37 @@
 'use strict';
 
 import Botkit from 'botkit';
-import SlackChannel from './slack-channel';
-import TwitterStream from './twitter-stream';
 
-if (!process.env.TOKEN || !process.env.STREAM_FILTER) {
-  console.log('Error: Specify TOKEN STREAM_FILTER in environment');
-  process.exit(1);
-}
+export default class Bot {
 
-const controller = Botkit.slackbot({
-  debug: false
-});
-
-// connect the bot to a stream of messages
-controller.spawn({
-  token: process.env.TOKEN
-}).startRTM((error, bot, payload) => {
-  if (error) {
-    throw new Error('Could not connect to Slack');
+  constructor() {
+    if (!process.env.TOKEN) {
+      console.log('Error: Specify TOKEN in environment');
+      process.exit(1);
+    }
   }
 
-  // slack channel list
-  const slackChannel = new SlackChannel(bot);
-  slackChannel.init();
+  run() {
+    this.controller = Botkit.slackbot({
+      debug: false
+    });
 
-  setTimeout(() => {
+    // connect the bot to a stream of messages
+    this.controller.spawn({
+      token: process.env.TOKEN
+    }).startRTM();
 
-    // twitter stream
-    const twitterStream = new TwitterStream(bot);
-    twitterStream.stream(slackChannel.id('general'), process.env.STREAM_FILTER);
-  }, 2000);
-});
+    // listen ======================================================================
 
-// listen ======================================================================
+    this.controller.hears('ping', ['direct_message', 'direct_mention'], (bot, message) => {
+      bot.reply(message, 'pong');
+    });
 
-controller.hears('ping', ['direct_message', 'direct_mention'], (bot, message) => {
-  bot.reply(message, 'pong');
-});
-
-controller.hears(['hello', 'hi'], ['direct_message', 'dicrect_mention'], (bot, message) => {
-
-  bot.api.reactions.add({
-    timestamp: message.ts,
-    channel: message.channel,
-    name: 'robot_face'
-  }), (error, response) => {
-    if(error) {
-      bot.botkit.log('Failed to add emoji reaction :(', error);
-    }
-  };
-
-  controller.storage.users.get(message.user, (error, user) => {
-    if (user && user.name) {
-      bot.reply(message, 'Hello ' + user.name + '!!');
-    } else {
-      bot.reply(message, 'Hello.');
-    }
-  });
-});
+    // import skill modules
+    const path = require('path').join(__dirname, 'skills');
+    require('fs').readdirSync(path).forEach(file => {
+      const skill = require(`./skills/${file}`).default;
+      new skill().hears(this.controller);
+    });
+  }
+}
