@@ -2,11 +2,13 @@
 
 export default class Hello {
 
-  constructor() {}
+  constructor(controller) {
+    this.controller = controller;
+  }
 
-  hears(controller) {
+  run() {
 
-    controller.hears(['hello', 'hi'], ['direct_message', 'direct_mention'], (bot, message) => {
+    this.controller.hears(['^hello', '^hi'], ['direct_message', 'direct_mention'], (bot, message) => {
 
       // add reactions
       bot.api.reactions.add({
@@ -20,7 +22,7 @@ export default class Hello {
       };
 
       // reply message
-      controller.storage.users.get(message.user, (error, user) => {
+      this.controller.storage.users.get(message.user, (error, user) => {
         if (user && user.name) {
           bot.reply(message, `Hello ${user.name}!!`);
         } else {

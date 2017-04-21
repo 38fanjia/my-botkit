@@ -5,7 +5,9 @@ import SlackChannel from '../slack-channel';
 
 export default class TwitterStream {
 
-  constructor() {
+  constructor(controller) {
+    this.controller = controller;
+
     if (!process.env.CONSUMER_KEY || !process.env.CONSUMER_SECRET || !process.env.ACCESS_TOKEN_KEY || !process.env.ACCESS_TOKEN_SECRET || !process.env.STREAM_FILTER) {
       console.log('Error: Specify CONSUMER_KEY CONSUMER_SECRET ACCESS_TOKEN_KEY ACCESS_TOKEN_SECRET STREAM_FILTER in environment');
       process.exit(1);
@@ -24,8 +26,8 @@ export default class TwitterStream {
 
   }
 
-  hears(controller) {
-    controller.on('message_received', (bot, message) => {
+  run() {
+    this.controller.on('message_received', (bot, message) => {
       if (message.type === 'hello') {
 
         // channel id
