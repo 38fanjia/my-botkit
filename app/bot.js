@@ -1,6 +1,8 @@
 'use strict';
 
 import Botkit from 'botkit';
+import path from 'path';
+import fs from 'fs';
 
 export default class Bot {
 
@@ -22,8 +24,8 @@ export default class Bot {
     }).startRTM();
 
     // import skill modules
-    const path = require('path').join(__dirname, 'skills');
-    require('fs').readdirSync(path).forEach(file => {
+    const path = path.join(__dirname, 'skills');
+    fs.readdirSync(path).forEach(file => {
       const tmpClass = require(`./skills/${file}`).default;
       const skill = new tmpClass(this.controller);
       if (typeof skill.bind === 'function') skill.bind();
