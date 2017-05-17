@@ -1,11 +1,14 @@
 'use strict';
 
+import BaseSkill from './base_skill';
 import Twitter from 'twitter';
 import SlackChannel from '../slack-channel';
 
-export default class TwitterStream {
+export default class TwitterStream extends BaseSkill {
 
   constructor(controller) {
+    super();
+
     this.controller = controller;
 
     if (!process.env.CONSUMER_KEY || !process.env.CONSUMER_SECRET || !process.env.ACCESS_TOKEN_KEY || !process.env.ACCESS_TOKEN_SECRET || !process.env.STREAM_FILTER) {
@@ -26,7 +29,7 @@ export default class TwitterStream {
 
   }
 
-  run() {
+  bind() {
     this.controller.on('message_received', (bot, message) => {
       if (message.type === 'hello') {
 

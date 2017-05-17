@@ -6,7 +6,7 @@ export default class Bot {
 
   constructor() {
     if (!process.env.TOKEN) {
-      console.log('Error: Specify TOKEN in environment');
+      console.error('Error: Specify TOKEN in environment');
       process.exit(1);
     }
   }
@@ -24,8 +24,9 @@ export default class Bot {
     // import skill modules
     const path = require('path').join(__dirname, 'skills');
     require('fs').readdirSync(path).forEach(file => {
-      const skill = require(`./skills/${file}`).default;
-      new skill(this.controller).run();
+      const tmpClass = require(`./skills/${file}`).default;
+      const skill = new tmpClass(this.controller);
+      if (typeof skill.bind === 'function') skill.bind();
     });
   }
 }
