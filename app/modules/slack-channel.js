@@ -2,6 +2,10 @@
 
 export default class SlackChannel {
 
+  constructor() {
+    this.channelList = [];
+  }
+
   getList(bot) {
     return new Promise((resolve, reject) => {
 
@@ -10,7 +14,7 @@ export default class SlackChannel {
         exclude_archived: true
       }, (error, response) => {
 
-        if (!error) {
+        if (error) {
           reject('Channle List の取得に失敗しました.');
         } else {
           response['channels'].forEach(channel => {

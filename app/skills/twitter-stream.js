@@ -13,7 +13,7 @@ export default class TwitterStream extends BaseSkill {
 
         const slackChannel = new SlackChannel();
         slackChannel.id(bot, 'general').then(data => {
-          this.execute(bot, data);
+          this.execute(bot, message, data);
         }).catch(error => {
           bot.botkit.log('Failed to get Slack channel list :(', error);
         });
@@ -21,9 +21,9 @@ export default class TwitterStream extends BaseSkill {
     });
   }
 
-  execute(bot, channel) {
+  execute(bot, message, channel) {
     if (process.env.STREAM_FILTER) {
-      bot.reply('Twitter Stream のキーワードが設定されていません.');
+      bot.reply(message, 'Twitter Stream のキーワードが設定されていません.');
     } else {
       const twitter = new Twitter();
       twitter.stream(bot, channel, process.env.STREAM_FILTER);
