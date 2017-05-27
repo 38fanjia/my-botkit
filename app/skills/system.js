@@ -1,16 +1,12 @@
 'use strict';
 
-export default class System {
+import BaseSkill from './base_skill';
 
-  constructor(controller) {
-    this.controller = controller;
-  }
+export default class System extends BaseSkill {
 
-  run() {
-
+  bind() {
     this.controller.hears(['^ping'], ['direct_message', 'direct_mention'], (bot, message) => {
       bot.reply(message, 'pong');
     });
-
   }
 }

@@ -7,21 +7,22 @@ export default class SlackChannel {
   }
 
   getList(bot) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
 
-      if (this.channelList >= 1) {
-        resolve(this.channelList);
-      } else {
-        bot.api.channels.list({
-          token: process.env.TOKEN,
-          exclude_archived: true
-        }, (err, response) => {
+      bot.api.channels.list({
+        token: process.env.TOKEN,
+        exclude_archived: true
+      }, (error, response) => {
+
+        if (error) {
+          reject('Channle List の取得に失敗しました.');
+        } else {
           response['channels'].forEach(channel => {
             this.channelList[channel.name] = channel.id;
           });
           resolve(this.channelList);
-        });
-      }
+        }
+      });
     });
   }
 
