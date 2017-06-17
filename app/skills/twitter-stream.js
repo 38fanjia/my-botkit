@@ -23,10 +23,10 @@ export default class TwitterStream extends BaseSkill {
 
   execute(bot, message, channel) {
     if (process.env.STREAM_FILTER) {
-      bot.reply(message, 'Twitter Stream のキーワードが設定されていません.');
-    } else {
       const twitter = new Twitter();
       twitter.stream(bot, channel, process.env.STREAM_FILTER);
+    } else {
+      bot.reply(message, 'Twitter Stream のキーワードが設定されていません.');
     }
   }
 }
