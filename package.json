@@ -5,7 +5,8 @@
   "main": "start.js",
   "scripts": {
     "lint": "eslint --config ./.eslintrc.yml app/**/*.js",
-    "start": "node start.js"
+    "start": "node start.js",
+    "updates": "npm-check-updates -u"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "twitter": "^1.7.0"
   },
   "devDependencies": {
-    "eslint": "^3.19.0"
+    "eslint": "^3.19.0",
+    "npm-check-updates": "^2.11.3"
   }
 }
