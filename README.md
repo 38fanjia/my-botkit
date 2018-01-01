@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/38fanjia/my-botkit/tree/master.svg?style=svg)](https://circleci.com/gh/38fanjia/my-botkit/tree/master)
+
 # my-botkit 🤖
 
 [howdyai/botkit](https://github.com/howdyai/botkit) を利用した Slackbot です。
