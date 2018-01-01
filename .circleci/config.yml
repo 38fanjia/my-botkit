@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10
+      - image: node:9.2
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -26,14 +26,30 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: yarn install
+      - run:
+          name: package install
+          command: |
+            npm -v
+            npm install
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run tests!
-      - run: yarn test
+      # run lint
+      - run:
+          name: lint check
+          command: |
+            mkdir -p ./reports
+            npx eslint --config ./.eslintrc.yml app/**/*.js --format=junit --output-file ./reports/eslint.xml
 
+      # run tests!
+      # - run: yarn test
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
 
