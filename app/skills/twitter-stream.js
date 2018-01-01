@@ -1,6 +1,6 @@
 'use strict';
 
-import BaseSkill from './base_skill';
+import BaseSkill from './base-skill';
 
 import Twitter from '../modules/twitter-stream';
 import SlackChannel from '../modules/slack-channel';

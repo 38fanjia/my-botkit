@@ -1,6 +1,6 @@
 'use strict';
 
-import BaseSkill from './base_skill';
+import BaseSkill from './base-skill';
 
 export default class System extends BaseSkill {
 
