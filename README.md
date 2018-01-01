@@ -6,7 +6,7 @@
 
 ### 準備
 
-* Node.js 6.x
+* Node.js 9.x
   * 使用するバージョンは .node-version に記載しています
 * Slack の Bot Token
 * Twitter Apps の Key 及び Access Token 情報
@@ -14,7 +14,7 @@
 
 ### インストール
 
-my-botkit をローカルにクローンし、 package.json に記載された package をインストールしてください。
+my-botkit をローカルにクローンし、 package.json に記載された package をインストールする。
 
 ```
 git clone git@github.com:38fanjia/my-botkit.git
@@ -23,7 +23,7 @@ npm install
 
 ### 実行
 
-環境変数を設定し、 Bot を起動します。
+環境変数を設定し、 Bot を起動する。
 
 ```
 npm run start
@@ -43,7 +43,7 @@ npm run start
 
 ## Skills
 
-以下機能が実装されています。
+以下機能を実装しています。
 
 * **Hello**
   * リアクションと挨拶を返す( [howdyai/botkit](https://github.com/howdyai/botkit) のサンプルコードを参考にしています )
