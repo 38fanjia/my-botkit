@@ -6,7 +6,7 @@ import TrainInfo from '../modules/train-info';
 export default class TrainDelay extends BaseSkill {
 
   bind() {
-    this.controller.hears(['^train delay'], ['direct_message', 'direct_mention'], (bot, message) => {
+    this.controller.hears(['^train delay', '^京急'], ['direct_message', 'direct_mention'], (bot, message) => {
       this.execute(bot, message);
     });
   }
