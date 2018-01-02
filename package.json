@@ -4,7 +4,7 @@
   "description": "my botkit app",
   "main": "start.js",
   "scripts": {
-    "lint": "eslint --config ./.eslintrc.yml app/**/*.js",
+    "lint": "eslint ./app/",
     "start": "node start.js",
     "check-updates": "npm-check-updates -u",
     "clean-install": "rm -rf node_modules && npm install"
