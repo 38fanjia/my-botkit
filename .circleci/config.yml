@@ -37,15 +37,12 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run lint
       - run:
           name: lint check
           command: |
             mkdir -p ./reports
-            npx eslint --config ./.eslintrc.yml app/**/*.js --format=junit --output-file ./reports/eslint.xml
-
-      # run tests!
-      # - run: yarn test
+            npx eslint ./app/ --format junit --output-file ./reports/eslint.xml
+          when: always
 
       - store_test_results:
           path: ./reports
